@@ -52,5 +52,4 @@ else
     x0 = get_depolDecomp(d1,d2);  % Default
 end
 
-
 end

@@ -2,9 +2,7 @@ function fun = get_objectiveLeastSquare(J,d2,d1,options)
 %
 % fun = get_objectiveLeastSquare(J,d2,d1,options)
 %
-%   Get function handle of objective. If gradient is included (default),
-%   we generate the objective as an symbolic expression, differentiate and
-%   save the gradient as an m-file in 'Temp'. 
+%   Get function handle of objective.
 %   
 % Input:
 %   J       : [d1d2 x d1d2] complex - Choi Jamiolkowski matrix to decompose
@@ -20,11 +18,10 @@ function fun = get_objectiveLeastSquare(J,d2,d1,options)
 Jr = real(J);
 Ji = imag(J);
 
-if isfield(options,'includeGradient') && ~options.includeGradient 
+if isfield(options,'includeObjectiveGradient') && ~options.includeObjectiveGradient 
     fun = @(x) objectiveLeastSquares(x,Jr,Ji,d2,d1);
 else
-    
+    fun = @(x) objectiveGradientLeastSquares(x,Jr,Ji,d2,d1);
 end
-
 
 end

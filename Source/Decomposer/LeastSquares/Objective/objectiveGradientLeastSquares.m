@@ -1,8 +1,8 @@
-function value = objectiveLeastSquares(X,Jr,Ji,d2,d1)
+function [obj, grad] = objectiveGradientLeastSquares(X,Jr,Ji,d2,d1)
 %
-% value = objectiveLeastSquares(X,Jr,Ji,d2,d1)
+% value = gradientLeastSquares(X,Jr,Ji,d2,d1)
 %
-%   Objective function for LeastSquare problem.
+%   Gradient function for LeastSquare problem.
 %   We make use of the fact that 
 %   Xj*ctranspose(Xj) = ( Re(Xj)*transpose(Re(Xj)) +
 %   Im(Xj)*transpose(Im(Xj)) ) + i * ( Im(Xj)*transpose(Re(Xj)) - Re(Xj)*transpose(Im(Xj)))
@@ -17,8 +17,12 @@ function value = objectiveLeastSquares(X,Jr,Ji,d2,d1)
 %
 % Output:
 %
-%   value  : double - value of objective
+%   obj    : double - 
+%   grad   : [d1d2 x d1d2 x 2] double - value of gradient
 %
+
+
+%% Compute decomposition difference Diffr and Diffi
 
 d = d1*d2;
 
@@ -39,6 +43,29 @@ for j  = 1: d2
 
 end
 
-value = norm(Jr-Temp(:,:,1)/d2,"fro")^2 + norm(Ji-Temp(:,:,2)/d2,"fro")^2;
+Diffr = Jr - Temp(:,:,1)/d2;
+
+Diffi = Ji - Temp(:,:,2)/d2;
+
+
+%% Compute objective
+
+obj = norm(Diffr,"fro")^2 + norm(Diffi,"fro")^2;
+
+
+%% Compute gradient
+
+grad =  zeros(d,d,2);
+
+DiffiCut = Diffi;
+DiffiCut( (d+1)*(0:(d-1))+1 ) = 0; % Set diagonals to zero
+
+% Vectorized version of gradient formula (non-trivial) 
+
+grad(:,:,1) = -4/d2 * Diffr * X(:,:,1) + 4/d2 * DiffiCut * X(:,:,2);
+
+grad(:,:,2) = -4/d2 * Diffr * X(:,:,2) - 4/d2 * DiffiCut * X(:,:,1); 
+
 
 end
+

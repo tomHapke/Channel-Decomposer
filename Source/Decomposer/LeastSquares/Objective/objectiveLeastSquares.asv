@@ -2,10 +2,7 @@ function value = objectiveLeastSquares(X,Jr,Ji,d2,d1)
 %
 % value = objectiveLeastSquares(X,Jr,Ji,d2,d1)
 %
-%   Objective function for LeastSquare problem.
-%   We make use of the fact that 
-%   Xj*ctranspose(Xj) = ( Re(Xj)*transpose(Re(Xj)) +
-%   Im(Xj)*transpose(Im(Xj)) ) + i * ( Im(Xj)*transpose(Re(Xj)) - Re(Xj)*transpose(Im(Xj)))
+% Objective function for LeastSquare problem
 %
 % Input:
 %   
@@ -39,6 +36,4 @@ for j  = 1: d2
 
 end
 
-value = norm(Jr-Temp(:,:,1)/d2,"fro")^2 + norm(Ji-Temp(:,:,2)/d2,"fro")^2;
-
-end
+value = norm
