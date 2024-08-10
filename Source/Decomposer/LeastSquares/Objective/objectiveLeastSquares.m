@@ -1,6 +1,6 @@
-function value = objectiveLeastSquares(X,Jr,Ji,d2,d1)
+function value = objectiveLeastSquares(X)
 %
-% value = objectiveLeastSquares(X,Jr,Ji,d2,d1)
+% value = objectiveLeastSquares(X)
 %
 %   Objective function for LeastSquare problem.
 %   We make use of the fact that 
@@ -10,26 +10,24 @@ function value = objectiveLeastSquares(X,Jr,Ji,d2,d1)
 % Input:
 %   
 %   X      : [d1d2 x d1d2 x 2] double - optimization variable
-%   Jr     : [d1d2 x d1d2] double - real part of Choi matrix
-%   Ji     : [d1d2 x d1d2] double - imaginary part of Choi matrix  
-%   d1     : int - input dimension
-%   d2     : int - output dimension
 %
 % Output:
 %
 %   value  : double - value of objective
 %
 
-d = d1*d2;
+global Jrg Jig d1g d2g
+
+d = d1g*d2g;
 
 Temp = zeros(d,d,2);
 
-for j  = 1: d2 
+for j  = 1: d2g 
 
-    indexLeft  = (j-1)*d1 +1;
-    indexRight = j*d1;
+    indexLeft  = (j-1)*d1g +1;
+    indexRight = j*d1g;
 
-    %% Range over d1-wide columns
+    %% Range over d1g-wide columns
 
     % real part
     Temp(:,:,1) = Temp(:,:,1) + X(:,indexLeft:indexRight,1)*X(:,indexLeft:indexRight,1)' + X(:,indexLeft:indexRight,2)*X(:,indexLeft:indexRight,2)';
@@ -39,6 +37,6 @@ for j  = 1: d2
 
 end
 
-value = norm(Jr-Temp(:,:,1)/d2,"fro")^2 + norm(Ji-Temp(:,:,2)/d2,"fro")^2;
+value = norm(Jrg-Temp(:,:,1)/d2g,"fro")^2 + norm(Jig-Temp(:,:,2)/d2g,"fro")^2;
 
 end

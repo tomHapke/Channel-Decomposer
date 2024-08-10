@@ -1,6 +1,6 @@
-function [c, ceq, DC, DCeq] = constraintGradientLeastSquares(X,d2,d1)
+function [c, ceq, DC, DCeq] = constraintGradientLeastSquares(X)
 %
-% [ceq,DCeq] = constraintGradientLeastSquares(X,d2,d1)
+% [ceq,DCeq] = constraintGradientLeastSquares(X)
 %
 %   constraint value and gradient of ceqstraint function for LeastSquares problem.
 %
@@ -8,8 +8,6 @@ function [c, ceq, DC, DCeq] = constraintGradientLeastSquares(X,d2,d1)
 % Input:
 %   
 %   X      : [d1d2 x d1d2 x 2] double - optimization variable
-%   d1     : int - input dimension
-%   d2     : int - output dimension
 %
 % Output:
 %
@@ -19,93 +17,101 @@ function [c, ceq, DC, DCeq] = constraintGradientLeastSquares(X,d2,d1)
 %   DCeq   : [d1d2 x d1d2 x 2 x d1 x d1d2 x 2] double - gradient of constraint
 %
 
+global d1g d2g   
+
 c = [];
-DC = [];
+
+if nargout >2
+    DC = [];
+end
 
 %% constraint value
 
-ceq = ceqstraintLeastSquares(X,d2,d1);
+ceq = constraintLeastSquares(X);
 
 
 %% Gradient
 
-d = d1*d2;
-
-DCeq = zeros(d,d,2,d1,d,2);
-
-
-%% Real constraints
-
-for j2 = 1:d2
-
-    indexLeft  = (j2-1)*d1;
-
-    for ic = 1:d1
-        for jc = 1:d1
-            if ic ~= jc
-                for i2 = 1:d2
-                   for j1 = 1:d1
+if nargout >2
     
-                       % real part of X
-
-                       DCeq( (i2-1)*d1 + ic, indexLeft+j1, 1, ic, indexLeft+jc, 1) = X((i2-1)*d1 + jc, indexLeft+j1,1);
-                       DCeq( (i2-1)*d1 + jc, indexLeft+j1, 1, ic, indexLeft+jc, 1) = X((i2-1)*d1 + ic, indexLeft+j1,1);
-
-
-                       % imaginary part of X
-                       
-                       DCeq( (i2-1)*d1 + ic, indexLeft+j1, 2, ic, indexLeft+jc, 1) = X((i2-1)*d1 + jc, indexLeft+j1,2);
-                       DCeq( (i2-1)*d1 + jc, indexLeft+j1, 2, ic, indexLeft+jc, 1) = X((i2-1)*d1 + ic, indexLeft+j1,2);
-
-
-                   end
-                end
-            else
-                for i2 = 1:d2
-                   for j1 = 1:d1
+    d = d1g*d2g;
     
-                       % real part of X
-                       
-                       DCeq( (i2-1)*d1 + ic, indexLeft+j1, 1, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1 + jc, indexLeft+j1,1);
-
-
-                       % imaginary part of X
-
-                       DCeq( (i2-1)*d1 + ic, indexLeft+j1, 2, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1 + jc, indexLeft+j1,2);
+    DCeq = zeros(d,d,2,d1g,d,2);
     
-
-                   end
+    
+    %% Real constraints
+    
+    for j2 = 1:d2g
+    
+        indexLeft  = (j2-1)*d1g;
+    
+        for ic = 1:d1g
+            for jc = 1:d1g
+                if ic ~= jc
+                    for i2 = 1:d2g
+                       for j1 = 1:d1g
+        
+                           % real part of X
+    
+                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, indexLeft+j1,1);
+                           DCeq( (i2-1)*d1g + jc, indexLeft+j1, 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, indexLeft+j1,1);
+    
+    
+                           % imaginary part of X
+                           
+                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, indexLeft+j1,2);
+                           DCeq( (i2-1)*d1g + jc, indexLeft+j1, 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, indexLeft+j1,2);
+    
+    
+                       end
+                    end
+                else
+                    for i2 = 1:d2g
+                       for j1 = 1:d1g
+        
+                           % real part of X
+                           
+                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 1, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, indexLeft+j1,1);
+    
+    
+                           % imaginary part of X
+    
+                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 2, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, indexLeft+j1,2);
+        
+    
+                       end
+                    end
                 end
             end
         end
     end
-end
-
-
-%% Imaginary constraints
-
-for j2 = 1:d2
-
-    indexLeft  = (j2-1)*d1;
-
-    for ic = 1:d1
-        for jc = 1:d1
-            for i2 = 1:d2
-               for j1 = 1:d1
-
-                   % real part of X
-
-                   DCeq( (i2-1)*d1 + ic, indexLeft+j1, 1, ic, indexLeft+jc, 2) = -X((i2-1)*d1 + jc, indexLeft+j1,2);
-                   DCeq( (i2-1)*d1 + jc, indexLeft+j1, 1, ic, indexLeft+jc, 2) =  X((i2-1)*d1 + ic, indexLeft+j1,2);
-
-
-                   % imaginary part of X
-                   
-                   DCeq( (i2-1)*d1 + ic, indexLeft+j1, 2, ic, indexLeft+jc, 2) =  X((i2-1)*d1 + jc, indexLeft+j1,1);
-                   DCeq( (i2-1)*d1 + jc, indexLeft+j1, 2, ic, indexLeft+jc, 2) = -X((i2-1)*d1 + ic, indexLeft+j1,1);
-
-
-               end
+    
+    
+    %% Imaginary constraints
+    
+    for j2 = 1:d2g
+    
+        indexLeft  = (j2-1)*d1g;
+    
+        for ic = 1:d1g
+            for jc = 1:d1g
+                for i2 = 1:d2g
+                   for j1 = 1:d1g
+    
+                       % real part of X
+    
+                       DCeq( (i2-1)*d1g + ic, indexLeft+j1, 1, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + jc, indexLeft+j1,2);
+                       DCeq( (i2-1)*d1g + jc, indexLeft+j1, 1, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + ic, indexLeft+j1,2);
+    
+    
+                       % imaginary part of X
+                       
+                       DCeq( (i2-1)*d1g + ic, indexLeft+j1, 2, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + jc, indexLeft+j1,1);
+                       DCeq( (i2-1)*d1g + jc, indexLeft+j1, 2, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + ic, indexLeft+j1,1);
+    
+    
+                   end
+                end
             end
         end
     end

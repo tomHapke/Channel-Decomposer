@@ -1,14 +1,12 @@
-function [x0,A,b,Aeq,beq,lb,ub] = prepare_variables(d2, d1, options)
+function [x0,A,b,Aeq,beq,lb,ub] = prepare_variables(options)
 %
-% [x0,A,b,Aeq,beq,lb,ub] = prepare_variables(d2,d1)
+% [x0,A,b,Aeq,beq,lb,ub] = prepare_variables(options)
 %
 %   Prepare variables for fmincon
 %
 % Input:
 %
-%   J            : [d1d2 x d1d2] complex - Choi Jamiolkowski matrix to decompose
-%   d1           : int - input dimension
-%   d2           : int - output dimension
+
 %   options      : struct - set various options
 % 
 % Output:
@@ -22,7 +20,9 @@ function [x0,A,b,Aeq,beq,lb,ub] = prepare_variables(d2, d1, options)
 %   x0           : [d1d2 x d1d2 x 2] - inital value for fmincon execution
 %
 
-    
+global d1g d2g    
+
+
 %% Linear constraints (empty)
 
 A = [];
@@ -40,16 +40,16 @@ ub = [];
 if isfield(options, 'initialValueMode')
     switch options.initialValueMode
         case 'depolDecomp'
-            x0 = get_depolDecomp(d1,d2);
+            x0 = get_depolDecomp(d1g,d2g);
         case 'random'
-            x0 = get_randomInitialValue(d1,d2);
+            x0 = get_randomInitialValue(d1g,d2g);
         case 'ensembleRandom'
-            x0 = get_ensembleRandomInitialValue(d1,d2);
+            x0 = get_ensembleRandomInitialValue(d1g,d2g);
         otherwise
             error('Invalid intialValueMode!')
     end
 else
-    x0 = get_depolDecomp(d1,d2);  % Default
+    x0 = get_depolDecomp(d1g,d2g);  % Default
 end
 
 end

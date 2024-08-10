@@ -1,6 +1,6 @@
-function [c,ceq] = constraintLeastSquares(X,d2,d1)
+function [c,ceq] = constraintLeastSquares(X)
 %
-% ceq = objectiveLeastSquares(X,d2,d1)
+% ceq = objectiveLeastSquares(X)
 %
 %   Constraint function for LeastSquare problem.
 %
@@ -8,8 +8,6 @@ function [c,ceq] = constraintLeastSquares(X,d2,d1)
 % Input:
 %   
 %   X      : [d1d2 x d1d2 x 2] double - optimization variable
-%   d1     : int - input dimension
-%   d2     : int - output dimension
 %
 % Output:
 %
@@ -17,21 +15,23 @@ function [c,ceq] = constraintLeastSquares(X,d2,d1)
 %   ceq    : [d1 x d1d2 x 2] doubledouble - ceq of constraint
 %
 
+global d1g d2g   
+
 c = [];
 
-d = d1*d2;
+d = d1g*d2g;
 
-ceq = zeros(d1,d,2);
+ceq = zeros(d1g,d,2);
 
-for j  = 1 : d2 
+for j  = 1 : d2g 
 
-    indexLeftj  = (j-1)*d1 +1;
-    indexRightj = j*d1;
+    indexLeftj  = (j-1)*d1g +1;
+    indexRightj = j*d1g;
 
-    for i = 1:d2
+    for i = 1:d2g
 
-        indexLefti  = (i-1)*d1 +1;
-        indexRighti = i*d1;
+        indexLefti  = (i-1)*d1g +1;
+        indexRighti = i*d1g;
 
         ceq(:,indexLeftj:indexRightj,1) = ceq(:,indexLeftj:indexRightj,1) ...
             + X(indexLefti:indexRighti ,indexLeftj:indexRightj, 1)*X(indexLefti:indexRighti ,indexLeftj:indexRightj, 1)' ...
@@ -43,7 +43,7 @@ for j  = 1 : d2
 
     end
     
-    ceq(:,indexLeftj:indexRightj,1) = ceq(:,indexLeftj:indexRightj,1) - eye(d1); 
+    ceq(:,indexLeftj:indexRightj,1) = ceq(:,indexLeftj:indexRightj,1) - eye(d1g); 
 
 end
 

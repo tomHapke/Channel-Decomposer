@@ -4,7 +4,7 @@
 classdef Decomposer
 
     methods (Abstract)
-        [isFound, Decomp] = decompose(varargin)
+        [isFound, Decomp, error] = decompose(varargin)
     end
 
     methods 

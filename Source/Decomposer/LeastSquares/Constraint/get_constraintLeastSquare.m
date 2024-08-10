@@ -1,12 +1,11 @@
-function const = get_constraintLeastSquare(d2,d1,options)
+function const = get_constraintLeastSquare(options)
 %
 % fun = get_objectiveLeastSquare(J,d2,d1,options)
 %
 %   Get function handle of constraint.
 %   
 % Input:
-%   d1      : int - input dimension
-%   d2      : int - output dimension
+%
 %   options : struct - set various options
 %
 % Output:
@@ -15,9 +14,9 @@ function const = get_constraintLeastSquare(d2,d1,options)
 %
 
 if isfield(options,'includeConstraintGradient') && ~options.includeConstraintGradient 
-    const = @(x) constraintLeastSquares(x,d2,d1);
+    const = @constraintLeastSquares;
 else
-    const = @(x) constraintGradientLeastSquares(x,d2,d1);
+    const = @constraintGradientLeastSquares;
 end
 
 end
