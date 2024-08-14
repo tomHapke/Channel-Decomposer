@@ -37,7 +37,7 @@ ub = [];
 
 %% Intial value
 
-if isfield(options, 'initialValueMode')
+if isfield(options, 'InitialValueMode')
     switch options.initialValueMode
         case 'depolDecomp'
             x0 = get_depolDecomp(d1g,d2g);

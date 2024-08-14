@@ -26,7 +26,9 @@ function [isFound, Decom, error] = decompose_leastSquares(varargin)
 
 %% Prepare variables
 
-disp('Prepare optimization problem ...');
+if isfield(options,'Display') && ~strcmp(options.Display,'off')
+    disp('Prepare optimization problem ...');
+end
 
 [x0,A,b,Aeq,beq,lb,ub] = prepare_variables(options);
 
@@ -50,6 +52,10 @@ if isfield(options,'Algorithm')
     optionsFmincon = optimoptions(optionsFmincon,'Algorithm',options.Algorithm);
 end
 
+if isfield(options,'Display')
+    optionsFmincon = optimoptions(optionsFmincon,'Display',options.Display);
+end
+
 if isfield(options,'includeObjectiveGradient') && ~options.includeObjectiveGradient
     optionsFmincon = optimoptions(optionsFmincon,'SpecifyObjectiveGradient',false);
 end
@@ -70,10 +76,16 @@ if isfield(options,'MaxIterations')
     optionsFmincon = optimoptions(optionsFmincon,'MaxIterations',options.MaxIterations);
 end
 
+if isfield(options, 'OptimalityTolerance')
+    optionsFmincon = optimoptions(optionsFmincon,'OptimalityTolerance',options.OptimalityTolerance);
+end
+
 
 %% Execute fmincon
 
-disp('Decompose Channel: run fmincon ...')
+if isfield(options,'Display') && ~strcmp(options.Display,'off')
+    disp('Decompose Channel: run fmincon ...')
+end
 
 [X, fval] = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,nonlcon,optionsFmincon);
 
@@ -85,7 +97,7 @@ Decom = transform_x2Decom(X);
 
 %% check decomp with tol and set isFound
 
-[isFound, error] = check_decomp(Decom, fval, tol, options);
+[isFound, error] = check_decomp(Decom, X, fval, tol, options);
 
 
 %% Clear global variables

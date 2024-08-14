@@ -31,11 +31,7 @@ for j = 1 : d2
 
     % Compute column representation
     [V,D] = eig(J);
-    [ev,ind] = sort(diag(D),'descend');
-    X =  V(:,ind(1:d1)) .* sqrt(ev(1:d1)'); 
-
-    % Set x0
-    x0(:,indexLeft:indexRight,1) = real(X);
-    x0(:,indexLeft:indexRight,2) = imag(X);
+    ev = diag(D);
+    x0(:,indexLeft : indexRight) =  V(:,d1) * sqrt(ev(1:d1)'); 
 
 end

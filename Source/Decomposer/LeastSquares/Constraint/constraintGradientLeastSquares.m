@@ -27,7 +27,7 @@ end
 
 %% constraint value
 
-ceq = constraintLeastSquares(X);
+[~,ceq] = constraintLeastSquares(X);
 
 
 %% Gradient
@@ -49,37 +49,33 @@ if nargout >2
             for jc = 1:d1g
                 if ic ~= jc
                     for i2 = 1:d2g
-                       for j1 = 1:d1g
         
-                           % real part of X
-    
-                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, indexLeft+j1,1);
-                           DCeq( (i2-1)*d1g + jc, indexLeft+j1, 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, indexLeft+j1,1);
-    
-    
-                           % imaginary part of X
-                           
-                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, indexLeft+j1,2);
-                           DCeq( (i2-1)*d1g + jc, indexLeft+j1, 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, indexLeft+j1,2);
-    
-    
-                       end
+                       % real part of X
+
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),1);
+                       DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),1);
+
+
+                       % imaginary part of X
+                       
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),2);
+                       DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),2);
+
+
                     end
                 else
                     for i2 = 1:d2g
-                       for j1 = 1:d1g
         
-                           % real part of X
-                           
-                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 1, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, indexLeft+j1,1);
+                       % real part of X
+                       
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),1);
+
+
+                       % imaginary part of X
+
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),2);
     
-    
-                           % imaginary part of X
-    
-                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 2, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, indexLeft+j1,2);
-        
-    
-                       end
+
                     end
                 end
             end
@@ -91,30 +87,35 @@ if nargout >2
     
     for j2 = 1:d2g
     
-        indexLeft  = (j2-1)*d1g;
+        indexLeft  = (j2-1)*d1g ;
     
         for ic = 1:d1g
             for jc = 1:d1g
-                for i2 = 1:d2g
-                   for j1 = 1:d1g
-    
+                if jc ~= ic
+                    for i2 = 1:d2g   
+
                        % real part of X
     
-                       DCeq( (i2-1)*d1g + ic, indexLeft+j1, 1, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + jc, indexLeft+j1,2);
-                       DCeq( (i2-1)*d1g + jc, indexLeft+j1, 1, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + ic, indexLeft+j1,2);
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),2);
+                       DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),2);
     
     
                        % imaginary part of X
                        
-                       DCeq( (i2-1)*d1g + ic, indexLeft+j1, 2, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + jc, indexLeft+j1,1);
-                       DCeq( (i2-1)*d1g + jc, indexLeft+j1, 2, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + ic, indexLeft+j1,1);
-    
-    
-                   end
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),1);
+                       DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),1);
+                       
+
+                    end
                 end
             end
         end
     end
+    
+    %% Reshape
+    
+    DCeq = reshape(DCeq, 2*(d1g*d2g)^2, 2*d1g^2*d2g );
+
 end
 
 end

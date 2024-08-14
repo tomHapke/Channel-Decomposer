@@ -9,12 +9,12 @@ classdef Decomposer
 
     methods 
 
-        function [isFound, error] = decompose_rand(obj, d1, d2, choiRank, nSample, tol, options)
+        function [isFound, error] = decompose_rand(obj, d1, d2, choiRank, Nsample, tol, options)
             
-            isFound = false(1, nSample);
-            error = zeros(1,nSample);
+            isFound = false(1, Nsample);
+            error = zeros(1,Nsample);
 
-            for i = 1 : nSample
+            for i = 1 : Nsample
 
                 % Get random CPTP
                 A = rCPTPKraus(d1, d2, choiRank);
@@ -29,18 +29,18 @@ classdef Decomposer
             
         end
     
-        function Results         = decompose_analysis(obj, d1, d2, choiRank, nSample, tol, options)
+        function Results         = decompose_analysis(obj, d1, d2, choiRank, Nsample, tol, options)
             
-            Sample = (1 : nSample)';
-            IsFound = false(nSample, 1);
-            Error = zeros(nSample, 1);
-            Duration = zeros(nSample, 1);
+            Sample = (1 : Nsample)';
+            IsFound = false(Nsample, 1);
+            Error = zeros(Nsample, 1);
+            Duration = zeros(Nsample, 1);
 
             wb = waitbar(0,'Please wait...');
 
-            for i = 1 : nSample
+            for i = 1 : Nsample
 
-                waitbar(i/nSample,wb,sprintf('Decompose CPTP map samples: %d out of %d',i, nSample));
+                waitbar(i/Nsample,wb,sprintf('Decompose CPTP map samples: %d out of %d',i, Nsample);
 
                 tic;
 
@@ -53,7 +53,7 @@ classdef Decomposer
             Results = table(Sample, IsFound, Error, Duration);
 
             disp('---------------------');
-            fprintf('Summary of %d samples:\n', nSample);
+            fprintf('Summary of %d samples:\n', Nsample);
             fprintf('Percentage of successfull decompostions: %0.8f %% \n', mean(IsFound)*100);
             fprintf('Average error: %d \n', mean(Error));
             fprintf('Average duration: %d sec \n', mean(Duration));

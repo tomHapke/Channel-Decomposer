@@ -3,6 +3,7 @@ function [c,ceq] = constraintLeastSquares(X)
 % ceq = objectiveLeastSquares(X)
 %
 %   Constraint function for LeastSquare problem.
+%   Also known as Partial Trace constraint.
 %
 %
 % Input:
