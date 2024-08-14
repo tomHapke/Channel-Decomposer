@@ -53,7 +53,7 @@ if l <= 3
     options = struct([]);
     
     if l == 2
-        tol = 1e-10;
+        tol = 1e-6;
     else
         tol = input{3};
     end

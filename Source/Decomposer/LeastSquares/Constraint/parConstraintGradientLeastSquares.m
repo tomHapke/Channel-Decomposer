@@ -1,8 +1,9 @@
-function [c, ceq, DC, DCeq] = constraintGradientLeastSquares(X)
+function [c, ceq, DC, DCeq] = parConstraintGradientLeastSquares(X)
 %
 % [ceq,DCeq] = constraintGradientLeastSquares(X)
 %
-%   constraint value and gradient of ceqstraint function for LeastSquares problem.
+%   Constraint value and gradient of ceqstraint function for LeastSquares problem.
+%   Uses parallelization.
 %
 %
 % Input:
@@ -39,7 +40,7 @@ if nargout >2
     DCeq = zeros(d,d,2,d1g,d,2);
     
         
-    for j2 = 1:d2g
+    parfor j2 = 1:d2g
     
         indexLeft  = (j2-1)*d1g;
     

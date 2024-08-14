@@ -115,19 +115,17 @@ clear Jrg Jig d1g d2g
 end
 
 
-%% Stop algorithmn when objective is small enough
+%% Stopping function when objective is small enough
 
 function stop = outfun(x, optimValues, state)
 
-global d1g d2g tolg
+global tolg
 
 stop = false;
 
-[~,ceq] = constraintLeastSquares(x);
-
-if optimValues.fval < (d1g/d2g) * tolg^2 && norm(ceq,'fro') < sqrt(d1g*d2g) * tolg
+if optimValues.fval < (d1/d2) * tolg^2
     stop = true;
-    disp('Optimization stopped because decomposition error is tol-enough to zero.')
+    disp('Optimization stopped because decomposition error is tol enough to zero.')
 end
-    
+
 end

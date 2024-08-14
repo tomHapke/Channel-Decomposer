@@ -48,38 +48,36 @@ if nargout >2
         for ic = 1:d1g
             for jc = 1:d1g
                 if ic ~= jc
+
+                    DCeq( (0:(d2g-1))*d1g + ic, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),1);
+
                     for i2 = 1:d2g
-                       for j1 = 1:d1g
         
-                           % real part of X
-    
-                           DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),1);
-                           DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),1);
-    
-    
-                           % imaginary part of X
-                           
-                           DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),2);
-                           DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),2);
-    
-    
-                       end
+                       % real part of X
+
+                       DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),1);
+
+
+                       % imaginary part of X
+                       
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),2);
+                       DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),2);
+
+
                     end
                 else
                     for i2 = 1:d2g
-                       for j1 = 1:d1g
         
-                           % real part of X
-                           
-                           DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),1);
+                       % real part of X
+                       
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),1);
+
+
+                       % imaginary part of X
+
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),2);
     
-    
-                           % imaginary part of X
-    
-                           DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 1) = 2*X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),2);
-        
-    
-                       end
+
                     end
                 end
             end
@@ -96,22 +94,20 @@ if nargout >2
         for ic = 1:d1g
             for jc = 1:d1g
                 if jc ~= ic
-                    for i2 = 1:d2g
-                       for j1 = 1:d1g
-        
-                           % real part of X
-        
-                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 1, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + jc, indexLeft+j1,2);
-                           DCeq( (i2-1)*d1g + jc, indexLeft+j1, 1, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + ic, indexLeft+j1,2);
-        
-        
-                           % imaginary part of X
-                           
-                           DCeq( (i2-1)*d1g + ic, indexLeft+j1, 2, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + jc, indexLeft+j1,1);
-                           DCeq( (i2-1)*d1g + jc, indexLeft+j1, 2, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + ic, indexLeft+j1,1);
-                           
-        
-                       end
+                    for i2 = 1:d2g   
+
+                       % real part of X
+    
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),2);
+                       DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 1, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),2);
+    
+    
+                       % imaginary part of X
+                       
+                       DCeq( (i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 2) =  X((i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g),1);
+                       DCeq( (i2-1)*d1g + jc, (indexLeft+1):(indexLeft+d1g), 2, ic, indexLeft+jc, 2) = -X((i2-1)*d1g + ic, (indexLeft+1):(indexLeft+d1g),1);
+                       
+
                     end
                 end
             end

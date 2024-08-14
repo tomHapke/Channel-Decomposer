@@ -24,16 +24,15 @@ global Jrg Jig d1g d2g
 if isfield(options, 'FeasbilityTol')
     feasTol = options.FeasbilityTol;
 else
-    feasTol = 1e-8;
+    feasTol = sqrt(d1g*d2g) * tol;
 end
 
-[c,ceq] = constraintLeastSquares(X);
+[~,ceq] = constraintLeastSquares(X);
 
 if norm(ceq,'fro') > feasTol
     isFound = false;
     error = 0;
-    warning('Optimal decomposition is not feasilbe!')
-    return
+    warning('Decomposition not feasible!')
 end
 
 
