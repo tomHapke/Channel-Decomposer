@@ -30,7 +30,6 @@ d = m * d2;
 U=zeros(d, d1);
 
 % Create (first d1 columns of) a random  unitary
-% from d1 orthogonal vectors
 for k=1:d1
     vv=randn(d,1)+1i*randn(d,1); 
     for j=1:k-1

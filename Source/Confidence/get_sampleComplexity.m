@@ -1,6 +1,6 @@
 function N = get_sampleComplexity( d, tol, conf)
 %
-% N = get_sampleComplexity( tol, conf)
+% N = get_sampleComplexity( d, tol, conf)
 %
 %   Compute the sample complexitiy for testing the
 %   Ruskai-Audenaert-Conjecture with (tol,conf) - confidence.

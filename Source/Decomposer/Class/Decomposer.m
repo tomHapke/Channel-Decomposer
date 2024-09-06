@@ -10,6 +10,8 @@ classdef Decomposer
     methods 
 
         function [isFound, error] = decompose_rand(obj, d1, d2, choiRank, nSample, tol, options)
+
+            assert(choiRank <= d1*d2 && choiRank >= 1, 'Invalid Choi-rank!');
             
             isFound = false(1, nSample);
             error = zeros(1,nSample);
@@ -23,14 +25,16 @@ classdef Decomposer
                 J = kraus2choiV2(A, choiRank, d1, d2);
 
                 % Decompose
-                [isFound(i), Decom, error(i)] = obj.decompose(J, d1, tol, options);
+                [isFound(i), ~, error(i)] = obj.decompose(J, d1, tol, options);
 
             end
             
         end
     
         function Results         = decompose_analysis(obj, d1, d2, choiRank, nSample, tol, options)
-            
+
+            assert(choiRank <= d1*d2 && choiRank >= 1, 'Invalid Choi-rank!');
+
             Sample = (1 : nSample)';
             IsFound = false(nSample, 1);
             Error = zeros(nSample, 1);
@@ -40,11 +44,19 @@ classdef Decomposer
 
             for i = 1 : nSample
 
-                waitbar(i/nSample,wb,sprintf('Decompose CPTP map samples: %d out of %d',i, nSample));
+                waitbar(i/nSample,wb,sprintf('Decompose CPTP map samples: %d out of %d',i, nSample));  
+
+                % Get random CPTP
+                A = rCPTPKraus(d1, d2, choiRank);
+
+                % Kraus 2 Choi
+                J = kraus2choiV2(A, choiRank, d1, d2);
+        
+                % Decompose
 
                 tic;
 
-                [IsFound(i), Error(i)] = decompose_rand(obj, d1, d2, choiRank, 1, tol, options);
+                [IsFound(i), ~, Error(i)] = obj.decompose(J, d1, tol, options);
 
                 Duration(i) = toc;
 
