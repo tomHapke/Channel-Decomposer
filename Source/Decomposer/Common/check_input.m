@@ -48,12 +48,15 @@ d2g = size(J,1)/d1g;  % Set d2
 
 assert( norm(J-ctranspose(J))<1e-10, "Choi matrix is not hermitian");
 
+
+%% Fill missing info
+
 if l <= 3
     
-    options = struct([]);
+    options = struct([]);   % leave options emtpy if no preset. Default settings apply
     
     if l == 2
-        tol = 1e-6;
+        tol = 1e-3; % Default ||*||_J tolerance
     else
         tol = input{3};
     end
@@ -63,4 +66,5 @@ else
     options = input{4};
 end
    
+
 end

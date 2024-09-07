@@ -1,0 +1,79 @@
+function isFound = decompose_IRM(varargin)
+%
+% [isFound, Decom] = decompose_leastSquares(varargin)
+%
+%    
+%
+% Input:
+%
+%   J       : [d1d2 x d1d2] complex - Choi Jamiolkowski matrix to decompose
+%   d1      : int - input dimension
+%   tol     : double - tolerance of decomposition (optional)
+%   options : struct - set various options (optional)
+%
+% Output:
+%
+%   isFound : logical - true iff decomposition found within tolerance
+%   Decom   : [1 x d2] cell - contains decomposition matrices
+%   error   : double - decomposition error, norm specified in options
+%
+
+
+%% Check input
+[~, options]  = check_input(varargin);
+
+
+%% Prepare variables
+
+
+if isfield(options,'itermax')
+    itermax 
+else
+    itermax = 1000;
+end
+
+if ~isfield(options,'emin')
+    options.emin = 0.01;
+end
+
+
+%% Objective (and gradient if option is set)
+
+
+%% Constraints (and gradient if option is set)
+
+
+%% Execute algorithm
+
+k=0;
+
+[e, C, U] = get_IRMInital(J);
+
+while k<= options.itermax && e>emin
+
+   [e, C] = solve_IRMsubproblem(J,U,e,C);
+    
+   U = get_IRMeigsIsometry(C);
+
+   k = k + 1;
+end
+
+%% Transform X to Cell array of Choi matrices
+
+
+%% check feasibility
+
+
+%% check decomp with tol and set isFound
+
+isFound = e<options.emin ;
+
+%% Clear global variables
+
+clear Jrg Jig d1g d2g
+
+
+
+end
+
+

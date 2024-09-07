@@ -24,31 +24,14 @@ global Jrg Jig d1g d2g
 
 d = d1g*d2g;
 
-Temp = zeros(d,d,2);
-
-for j  = 1: d2g 
-
-    indexLeft  = (j-1)*d1g +1;
-    indexRight = j*d1g;
-
-    %% Range over d1g-wide columns
-
-    % real part
-    Temp(:,:,1) = Temp(:,:,1) + X(:,indexLeft:indexRight,1)*X(:,indexLeft:indexRight,1)' + X(:,indexLeft:indexRight,2)*X(:,indexLeft:indexRight,2)';
-
-    % imaginary part
-    Temp(:,:,2) = Temp(:,:,2) + X(:,indexLeft:indexRight,2)*X(:,indexLeft:indexRight,1)' - X(:,indexLeft:indexRight,1)*X(:,indexLeft:indexRight,2)';
-
-end
-
-Diffr = Jrg - Temp(:,:,1)/d2g;
-
-Diffi = Jig - Temp(:,:,2)/d2g;
+Diffr = Jrg - (X(:,:,1)*X(:,:,1)' + X(:,:,2)*X(:,:,2)')/d2g;
+Diffi = Jig - (X(:,:,2)*X(:,:,1)' - X(:,:,1)*X(:,:,2)')/d2g;
 
 
 %% Compute objective
 
-obj = norm(Diffr,"fro")^2 + norm(Diffi,"fro")^2;
+obj = norm(Diffr,"fro")^2 ...
+    + norm(Diffi,"fro")^2;
 
 
 %% Compute gradient

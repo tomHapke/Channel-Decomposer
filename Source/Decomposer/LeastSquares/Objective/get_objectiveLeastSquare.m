@@ -13,7 +13,7 @@ function fun = get_objectiveLeastSquare(options)
 %   fun     : function handle - includes gradient if option is set
 %
 
-if isfield(options,'includeObjectiveGradient') && ~options.includeObjectiveGradient 
+if isfield(options,'IncludeObjectiveGradient') && ~options.includeObjectiveGradient 
     fun = @objectiveLeastSquares;
 else
     fun = @objectiveGradientLeastSquares;

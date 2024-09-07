@@ -2,12 +2,11 @@ function A = rCPTPKraus(d1, d2, m)
 %
 % A = rCPTPKraus(d1, d2, m)
 %
-%   Sample random CPTP map by sampling a random unitary (Haar measured), but without computing the
+%   Sample random CPTP map by sampling a suitably large random unitary (Haar measured), but without computing the
 %   whole unitary. 
 %
 %   CREDITS: 
-%   The code is inspired by the function 'runitary' from the
-%   external QUBIT4MATLAB package:
+%   The code is inspired by the function 'runitary' from the QUBIT4MATLAB package:
 %
 %   Program title: QUBIT4MATLAB V3.0
 %   Catalogue identifier: AEAZ_v1_0
@@ -26,8 +25,13 @@ function A = rCPTPKraus(d1, d2, m)
 %   A    : [d2 x d1 x m] complex - contains complex Kraus ensemble
 %
 
+%% Init variables
+
 d = m * d2;
 U=zeros(d, d1);
+
+
+%% Sample gaussian random vectors and apply Gram-Schmidt
 
 % Create (first d1 columns of) a random  unitary
 for k=1:d1

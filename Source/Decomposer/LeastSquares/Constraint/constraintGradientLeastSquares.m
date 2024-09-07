@@ -19,24 +19,22 @@ function [c, ceq, DC, DCeq] = constraintGradientLeastSquares(X)
 
 global d1g d2g   
 
-c = [];
-
 if nargout >2
     DC = [];
 end
 
-%% constraint value
+%% Constraint Value
 
-[~,ceq] = constraintLeastSquares(X);
+[c,ceq] = constraintLeastSquares(X);
 
 
-%% Gradient
+%% Gradient (A indices-heavy derivation is needed)
 
 if nargout >2
     
     d = d1g*d2g;
     
-    DCeq = zeros(d,d,2,d1g,d,2);
+    DCeq = zeros(d,d,2,d1g,d,2); % 6-dimensional tensor !!!
     
         
     for j2 = 1:d2g

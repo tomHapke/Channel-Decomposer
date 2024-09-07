@@ -1,4 +1,4 @@
-function value = objectiveLeastSquares(X)
+function obj = objectiveLeastSquares(X)
 %
 % value = objectiveLeastSquares(X)
 %
@@ -13,30 +13,20 @@ function value = objectiveLeastSquares(X)
 %
 % Output:
 %
-%   value  : double - value of objective
+%   obj    : double - value of objective
 %
 
 global Jrg Jig d1g d2g
 
+%% Compute decomposition difference Diffr and Diffi
+
 d = d1g*d2g;
 
-Temp = zeros(d,d,2);
+Diffr = Jrg - (X(:,:,1)*X(:,:,1)' + X(:,:,2)*X(:,:,2)')/d2g;
+Diffi = Jig - (X(:,:,2)*X(:,:,1)' - X(:,:,1)*X(:,:,2)')/d2g;
 
-for j  = 1: d2g 
 
-    indexLeft  = (j-1)*d1g +1;
-    indexRight = j*d1g;
+%% Compute objective
 
-    %% Range over d1g-wide columns
-
-    % real part
-    Temp(:,:,1) = Temp(:,:,1) + X(:,indexLeft:indexRight,1)*X(:,indexLeft:indexRight,1)' + X(:,indexLeft:indexRight,2)*X(:,indexLeft:indexRight,2)';
-
-    % imaginary part
-    Temp(:,:,2) = Temp(:,:,2) + X(:,indexLeft:indexRight,2)*X(:,indexLeft:indexRight,1)' - X(:,indexLeft:indexRight,1)*X(:,indexLeft:indexRight,2)';
-
-end
-
-value = norm(Jrg-Temp(:,:,1)/d2g,"fro")^2 + norm(Jig-Temp(:,:,2)/d2g,"fro")^2;
-
-end
+obj = norm(Diffr,"fro")^2 ...
+    + norm(Diffi,"fro")^2;

@@ -18,21 +18,22 @@ function J = kraus2choiV1(A, m, d1, d2)
 %   J      : [d1d2 x d1d2] complex - Choi Jamiolkowski representation  
 %
 
-d = d1*d2;
+%% Init variables
 
+d = d1*d2;
 J = complex(zeros(d),zeros(d));
 
+
+%% Compute Choi rep
 
 for i1 = 1 : d1
     for i2 = 1 : d1
         Temp = zeros(d1);
         Temp(i1,i2) = 1;
         S = zeros(d2);
-
         for j = 1 : m
             S = S + A(:,i1,j)*ctranspose(A(:,i2,j));
         end
-
         J = J + kron(S, Temp);
     end
 end

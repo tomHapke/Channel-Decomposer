@@ -13,7 +13,7 @@ function const = get_constraintLeastSquare(options)
 %   const   : function handle - includes gradient if option is set
 %
 
-if isfield(options,'includeConstraintGradient') && ~options.includeConstraintGradient 
+if isfield(options,'IncludeConstraintGradient') && ~options.includeConstraintGradient 
     const = @constraintLeastSquares;
 else
     const = @constraintGradientLeastSquares;
