@@ -17,7 +17,7 @@ function [isFound, Decom, error] = decompose_leastSquares(varargin)
 %
 %   isFound : logical - true iff decomposition found within tolerance
 %   Decom   : [1 x d2] cell - contains decomposition matrices
-%   error   : double - decomposition error, norm specified in options
+%   error   : double - l2 decomposition error, norm specified in options
 %
 
 
@@ -26,6 +26,10 @@ function [isFound, Decom, error] = decompose_leastSquares(varargin)
 [tol, options]  = check_input(varargin);
 
 global d1g d2g
+
+input = varargin{1};
+
+J = input{2};
 
 
 %% Prepare variables
@@ -55,7 +59,7 @@ if isfield(options,'Display') && ~strcmp(options.Display,'off')
     disp('Decompose Channel: run fmincon ...')
 end
 
-[X, fval] = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,nonlcon,optionsFmincon);
+X = fmincon(fun,x0,A,b,Aeq,beq,lb,ub,nonlcon,optionsFmincon);
 
 
 %% Transform X to Cell array of Choi matrices
@@ -63,26 +67,16 @@ end
 Decom = transform_X2Decom(X);
 
 
-%% check decomposition Leastsquare feasiblity 
+%% Check partial trace feasiblity 
 
-if isfield(options, 'FeasibilityTol')
-    feasTol = options.FeasibilityTol;
-else
-    feasTol = sqrt(d1g*d2g) * tol;
-end
-
-[~,ceq] = constraintLeastSquares(X);
-
-if norm(ceq,'fro') > feasTol
-    isFound = false;
-    error = 0;
+if ~check_feasibility(Decom, tol)
     warning('Decomposition not feasible!')
 end
 
 
-%% check decomp with tol and set isFound
+%% Check decomposition error with tolerance tol and set isFound accordingly
 
-[isFound, error] = check_LSdecomp(Decom, fval, tol);
+[isFound, error] = check_decomp(J, Decom, tol);
 
 
 %% Clear global variables

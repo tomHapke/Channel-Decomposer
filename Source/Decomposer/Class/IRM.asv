@@ -30,7 +30,7 @@ classdef  IRM < Decomposer
             %
             %   isFound : logical - true iff decomposition found within tolerance
             %   Decom   : [1 x d2] cell - contains decomposition matrices
-            %   error   : double - l2 decomposition error, norm specified in options
+            %   error   : double - decomposition error, norm specified in options
             %
 
             [isFound, DecomTemp, errorTemp] = decompose_IRM(varargin);

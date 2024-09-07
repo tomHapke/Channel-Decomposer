@@ -43,7 +43,7 @@ assign(e,e0);
 
 % Decomposition constraint
 
-Constraints = [ get_decomDiff(J,C) == 0 ];
+Constraints = [ decom_sum(J,C) == 0 ];
 
 % Partial trace constraint
 
@@ -80,10 +80,10 @@ optionsSDP = set_IRMoptions(options);
 
 %% Solve the problem
 
-optimize(Constraints, Objective, optionsSDP);
+optimize(Constraints,Objective,optionsSDP);
 
 
-%% Set solution
+%% Set solutions
 
 enew = value(e);
 
@@ -93,3 +93,6 @@ for i = 1:d2g
     Cnew{i} = value(C{i});
 end
 
+
+
+end

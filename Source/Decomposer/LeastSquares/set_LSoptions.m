@@ -95,7 +95,7 @@ end
 
 
 
-%% Stop algorithmn when objective is tol-small enough
+%% Stop algorithmn when objective is tol-small enough (and tol-feasible)
 
 function stop = outfun(x, optimValues, state)
 
