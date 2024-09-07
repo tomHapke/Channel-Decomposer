@@ -1,6 +1,6 @@
 function [isFound, Decom, error] = decompose_leastSquares(varargin)
 %
-% [isFound, Decom] = decompose_leastSquares(varargin)
+% [isFound, Decom, error] = decompose_leastSquares(varargin)
 %
 %   Minimize decompostion error in l2-norm. We represent 
 %   the decomposing channels by d1*d2 x d1 columns in a d1*d2 x d1*d2 matrices

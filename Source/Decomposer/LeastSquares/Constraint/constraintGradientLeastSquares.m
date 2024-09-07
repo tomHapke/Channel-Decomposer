@@ -1,6 +1,6 @@
 function [c, ceq, DC, DCeq] = constraintGradientLeastSquares(X)
 %
-% [ceq,DCeq] = constraintGradientLeastSquares(X)
+% [c, ceq, DC, DCeq] = constraintGradientLeastSquares(X)
 %
 %   constraint value and gradient of ceqstraint function for LeastSquares problem.
 %

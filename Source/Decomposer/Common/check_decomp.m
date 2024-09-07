@@ -13,6 +13,7 @@ function [isFound, error] = check_decomp(J, Decom, tol)
 % Output:
 %
 %   isFound      : logical - true iff decomposition is tol-correct
+%   error        : double - decomposition error w.r.t. ||*||_J  
 %
 
 global d1g d2g

@@ -1,6 +1,6 @@
 function [obj, grad] = objectiveGradientLeastSquares(X)
 %
-% value = gradientLeastSquares(X)
+% [obj, grad] = gradientLeastSquares(X)
 %
 %   Gradient function for LeastSquare problem.
 %   We make use of the fact that 

@@ -1,6 +1,6 @@
 function obj = objectiveLeastSquares(X)
 %
-% value = objectiveLeastSquares(X)
+% obj = objectiveLeastSquares(X)
 %
 %   Objective function for LeastSquare problem.
 %   We make use of the fact that 

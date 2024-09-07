@@ -1,6 +1,6 @@
 function [tol, options] = check_input(input)
 %
-% [tol ,options] = check_input(varargins)
+% [tol ,options] = check_input(input)
 %
 %   Check input for decomposition algorithms.
 %

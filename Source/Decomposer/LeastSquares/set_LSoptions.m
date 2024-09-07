@@ -1,6 +1,6 @@
 function optionsFmincon = set_LSoptions(options, tol)
 %
-% optionsFmincon = set_LSoptions(options)
+% optionsFmincon = set_LSoptions(options, tol)
 %
 %   Set options-instance for fmincon by reading options structre.
 %

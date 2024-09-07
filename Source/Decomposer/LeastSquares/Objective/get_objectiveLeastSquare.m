@@ -1,6 +1,6 @@
 function fun = get_objectiveLeastSquare(options)
 %
-% fun = get_objectiveLeastSquare(J,d2,d1,options)
+% fun = get_objectiveLeastSquare(options)
 %
 %   Get function handle of objective.
 %   

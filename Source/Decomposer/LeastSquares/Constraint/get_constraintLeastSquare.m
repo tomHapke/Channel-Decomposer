@@ -1,6 +1,6 @@
 function const = get_constraintLeastSquare(options)
 %
-% fun = get_objectiveLeastSquare(J,d2,d1,options)
+% const = get_objectiveLeastSquare(options)
 %
 %   Get function handle of constraint.
 %   

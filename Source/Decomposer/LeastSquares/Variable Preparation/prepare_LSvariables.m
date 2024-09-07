@@ -6,7 +6,6 @@ function [x0,A,b,Aeq,beq,lb,ub] = prepare_LSvariables(options)
 %
 % Input:
 %
-
 %   options      : struct - set various options
 % 
 % Output:
