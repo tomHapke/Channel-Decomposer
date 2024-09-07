@@ -69,14 +69,20 @@ Decom = transform_X2Decom(X);
 
 %% Check partial trace feasiblity 
 
-if ~check_feasibility(Decom, tol)
-    warning('Decomposition not feasible!')
-end
+isFeasible = check_feasibility(Decom, tol);
 
 
-%% Check decomposition error with tolerance tol and set isFound accordingly
+%% Check decomposition error with tolerance tol
 
 [isFound, error] = check_decomp(J, Decom, tol);
+
+
+%% Set isFound accordingly
+
+if ~isFeasible
+    isFound = false;
+    warning('Decomposition not feasible!')
+end
 
 
 %% Clear global variables

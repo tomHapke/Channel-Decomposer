@@ -66,22 +66,31 @@ end
 
 Decom = C;
 
+%% Optional: Cut off eigenvectors
+
+if isfield(options,'EigCutOff') && options.EigCutOff
+    Decom = cutoff_smallEigVec(Decom);
+end
+
 
 %% Check partial trace feasiblity 
 
-if ~check_feasibility(Decom, tol)
-    warning('Decomposition not feasible!')
-end
+isFeasible = check_feasibility(Decom, tol);
 
 
 %% Check eigenvalues of Decom
 
 [isDefinite, maxEigBound] = check_IRMdecomEig(Decom, options);
 
+fprintf('Maximal (d1+1)-eigenvalue: %d \n',maxEigBound)
 
-%% Check decomposition error with tolerance tol and set isFound accordingly
+
+%% Check decomposition error with tolerance tol
 
 [isFound, error] = check_decomp(J, Decom, tol);
+
+
+%% Set isFound accordingly
 
 if emin<maxEigBound
     isFound = false;
@@ -93,7 +102,10 @@ if ~isDefinite
     warning('Decomposition Choi matrices are not definite!')
 end
 
-fprintf('Maximal (d1+1)-eigenvalue: %d \n',maxEigBound)
+if ~isFeasible
+    isFound = false;
+    warning('Decomposition not feasible!')
+end
 
 
 %% Clear global variables
