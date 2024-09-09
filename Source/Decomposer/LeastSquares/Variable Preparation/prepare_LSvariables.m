@@ -42,8 +42,6 @@ if isfield(options, 'InitialValueMode')
             x0 = get_depolDecomp(d1g,d2g);
         case 'random'
             x0 = get_randomInitialValue(d1g,d2g);
-        case 'ensembleRandom'
-            x0 = get_ensembleRandomInitialValue(d1g,d2g);
         otherwise
             error('Invalid intialValueMode!')
     end

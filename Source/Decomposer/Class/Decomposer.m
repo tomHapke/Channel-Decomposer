@@ -108,7 +108,7 @@ classdef Decomposer
             for i = 1 : nSample
 
                 % Update waitbar
-                if exist('wb','var') % User might close waitbar
+                if ishghandle(wb) % User might close waitbar
                     waitbar(i/nSample,wb,sprintf('Decompose CPTP map samples: %d out of %d',i, nSample));  
                 end
 

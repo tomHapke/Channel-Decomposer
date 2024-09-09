@@ -83,7 +83,7 @@ end
 %  By the Audenaurt-Ruskai conjecture, we assume that the optimal value is
 %  0, hence this stopping criterion is reasonable.
 
-if ~isfield(options,'StopCrit') || ( isfield(options,'StopCrit') && ~strcmp(options.StopCrit,'FunVal') )
+if ~isfield(options,'StopCrit') || ( isfield(options,'StopCrit') && strcmp(options.StopCrit,'FunVal') )
     optionsFmincon = optimoptions(optionsFmincon,'OutputFcn',@outfun);
     global tolg
     tolg = tol;
@@ -105,7 +105,7 @@ stop = false;
 
 [~,ceq] = constraintLeastSquares(x);
 
-if optimValues.fval < (d1g/d2g) * tolg^2 && norm(ceq,'fro') < sqrt(d1g*d2g) * tolg
+if optimValues.fval <= (d1g/d2g) * tolg^2 && norm(ceq,'fro') <= sqrt(d1g*d2g) * tolg
     stop = true;
     disp('Optimization stopped because Channel decomposition error is tol-close enough to zero.')
 end
